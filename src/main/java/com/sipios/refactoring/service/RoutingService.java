@@ -4,7 +4,10 @@ package com.sipios.refactoring.service;
 import com.sipios.refactoring.service.dto.Body;
 import com.sipios.refactoring.service.dto.Item;
 
+import com.sipios.refactoring.service.dto.TypeEnum;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 
 import java.util.Calendar;
@@ -13,6 +16,15 @@ import java.util.TimeZone;
 @Service
 public class RoutingService {
 
+    public double getDiscount(Body b) {
+        if (b.getType().equals(TypeEnum.STANDARD_CUSTOMER)) {
+            return 1;
+        } else if (b.getType().equals(TypeEnum.PREMIUM_CUSTOMER)) {
+            return 0.9;
+        } else  {
+            return 0.5;
+        }
+    }
     public double totalAmountByTypeQuantity(Body b, double d){
     // Compute total amount depending on the types and quantity of product and
     // if we are in winter or summer discounts periods

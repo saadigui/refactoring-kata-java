@@ -5,9 +5,9 @@ package com.sipios.refactoring.service.dto;
 public class Body {
 
     private Item[] items;
-    private String type;
+    private TypeEnum  type;
 
-    public Body(Item[] is, String t) {
+    public Body(Item[] is, TypeEnum t) {
         this.items = is;
         this.type = t;
     }
@@ -22,11 +22,11 @@ public class Body {
         this.items = items;
     }
 
-    public String getType() {
+    public TypeEnum getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(TypeEnum type) {
         this.type = type;
     }
 }

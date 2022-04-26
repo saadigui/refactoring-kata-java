@@ -2,8 +2,10 @@ package com.sipios.refactoring.controller;
 
 import com.sipios.refactoring.service.RoutingService;
 import com.sipios.refactoring.service.dto.Body;
+import com.sipios.refactoring.service.dto.TypeEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,6 +20,7 @@ public class ShoppingController {
     private Logger logger = LoggerFactory.getLogger(ShoppingController.class);
     private final RoutingService routingService ;
 
+
     public ShoppingController(RoutingService routingService) {
         this.routingService = routingService;
     }
@@ -25,19 +28,16 @@ public class ShoppingController {
     @PostMapping
     public String getPrice(@RequestBody Body b) {
         double totalAmount = 0;
-        double d;
+        double discount = 0;
 
         // Compute discount for customer
-        if (b.getType().equals("STANDARD_CUSTOMER")) {
-            d = 1;
-        } else if (b.getType().equals("PREMIUM_CUSTOMER")) {
-            d = 0.9;
-        } else if (b.getType().equals("PLATINUM_CUSTOMER")) {
-            d = 0.5;
-        } else {
+        if (! b.getType().equals(TypeEnum.PLATINUM_CUSTOMER) &&
+            !b.getType().equals(TypeEnum.STANDARD_CUSTOMER) && !b.getType().equals(TypeEnum.PREMIUM_CUSTOMER)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
-        totalAmount = routingService.totalAmountByTypeQuantity(b,d);
+        discount = routingService.getDiscount(b);
+
+        totalAmount = routingService.totalAmountByTypeQuantity(b,discount);
 
         try {
             if (b.getType().equals("STANDARD_CUSTOMER")) {
