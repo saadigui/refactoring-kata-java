@@ -27,17 +27,13 @@ public class ShoppingController {
 
     @PostMapping
     public String getPrice(@RequestBody Body b) {
-        double totalAmount = 0;
-        double discount = 0;
-
-        // Compute discount for customer
+        // Check Type of client
         if (! b.getType().equals(TypeEnum.PLATINUM_CUSTOMER) &&
             !b.getType().equals(TypeEnum.STANDARD_CUSTOMER) && !b.getType().equals(TypeEnum.PREMIUM_CUSTOMER)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
-        discount = routingService.getDiscount(b);
 
-        totalAmount = routingService.totalAmountByTypeQuantity(b,discount);
+        double totalAmount = routingService.totalAmountByTypeQuantity(b);
 
         try {
             if (b.getType().equals("STANDARD_CUSTOMER")) {

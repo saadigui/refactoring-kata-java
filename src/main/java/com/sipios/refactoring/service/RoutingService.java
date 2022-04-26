@@ -16,7 +16,7 @@ import java.util.TimeZone;
 @Service
 public class RoutingService {
 
-    public double getDiscount(Body b) {
+    private double getDiscount(Body b) {
         if (b.getType().equals(TypeEnum.STANDARD_CUSTOMER)) {
             return 1;
         } else if (b.getType().equals(TypeEnum.PREMIUM_CUSTOMER)) {
@@ -25,9 +25,10 @@ public class RoutingService {
             return 0.5;
         }
     }
-    public double totalAmountByTypeQuantity(Body b, double d){
+    public double totalAmountByTypeQuantity(Body b){
     // Compute total amount depending on the types and quantity of product and
     // if we are in winter or summer discounts periods
+        double d = getDiscount(b);
         double p = 0;
         Date date = new Date();
         Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("Europe/Paris"));
