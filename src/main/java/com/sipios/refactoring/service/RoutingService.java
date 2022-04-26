@@ -3,17 +3,15 @@ package com.sipios.refactoring.service;
 
 import com.sipios.refactoring.service.dto.Body;
 import com.sipios.refactoring.service.dto.Item;
-import org.springframework.http.HttpStatus;
 
-import org.springframework.web.server.ResponseStatusException;
+import org.springframework.stereotype.Service;
+
 
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
-
+@Service
 public class RoutingService {
-
-
 
     public double totalAmountByTypeQuantity(Body b, double d){
     // Compute total amount depending on the types and quantity of product and
